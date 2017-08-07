@@ -2,7 +2,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>PhotoGram</title>
+        <title>Pqtrz</title>
         <link rel="icon" href="camera-icon.png" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster|Poiret+One|Josefin+Sans:400,700,400italic,100" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" />
@@ -12,7 +12,7 @@
     <body>
         <div class="container">
             <header>
-                <h2>Pqtr.</h2>
+                <h2>Pqtrz.</h2>
                 <span class="icon"></span>
                 <nav>
                     <a href="/">Home</a> |
