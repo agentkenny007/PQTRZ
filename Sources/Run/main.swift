@@ -1,10 +1,4 @@
 import App
-import Vapor
-import HTTP
-import FluentProvider
-import LeafProvider
-import PostgreSQLProvider
-import URI
 
 /// We have isolated all of our App's logic into
 /// the App module because it makes our app
