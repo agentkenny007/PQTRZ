@@ -1,13 +1,6 @@
-//
-//  Pqtr.swift
-//  pqtrz
-//
-//  Created by Ikenna on 8/7/17.
-//
-//
-
 import Vapor
 import FluentProvider
+import HTTP
 
 final class Pqtr: Model {
     static let entity = "pqtrz"

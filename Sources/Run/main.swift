@@ -1,7 +1,10 @@
 import App
+import Vapor
+import HTTP
 import FluentProvider
 import LeafProvider
 import PostgreSQLProvider
+import URI
 
 /// We have isolated all of our App's logic into
 /// the App module because it makes our app
@@ -22,7 +25,6 @@ import PostgreSQLProvider
 let config = try Config()
 try config.addProvider(LeafProvider.Provider.self)
 try config.addProvider(PostgreSQLProvider.Provider.self)
-try config.preparations.append(Pqtr.self)
 try config.setup()
 
 let drop = try Droplet(config)
