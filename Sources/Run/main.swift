@@ -1,5 +1,7 @@
 import App
+import FluentProvider
 import LeafProvider
+import PostgreSQLProvider
 
 /// We have isolated all of our App's logic into
 /// the App module because it makes our app
@@ -19,6 +21,8 @@ import LeafProvider
 /// if no command is given, it will default to "serve"
 let config = try Config()
 try config.addProvider(LeafProvider.Provider.self)
+try config.addProvider(PostgreSQLProvider.Provider.self)
+config.preparations.append(Pqtr.self)
 try config.setup()
 
 let drop = try Droplet(config)
