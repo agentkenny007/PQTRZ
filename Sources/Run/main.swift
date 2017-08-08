@@ -22,7 +22,7 @@ import PostgreSQLProvider
 let config = try Config()
 try config.addProvider(LeafProvider.Provider.self)
 try config.addProvider(PostgreSQLProvider.Provider.self)
-config.preparations.append(Pqtr.self)
+try config.preparations.append(Pqtr.self)
 try config.setup()
 
 let drop = try Droplet(config)

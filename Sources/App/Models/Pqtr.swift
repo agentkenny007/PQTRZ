@@ -24,12 +24,12 @@ final class Pqtr: Model {
         url = try row.get("url")
     }
     
-    init(node: Node, in context: Context) throws {
-        capt = try node.extract("capt")
-        desc = try node.extract("desc")
-        url = try node.extract("url")
-        likes = try node.extract("likes")
-    }
+//    init(node: Node, in context: Context) throws {
+//        capt = try node.extract("capt")
+//        desc = try node.extract("desc")
+//        url = try node.extract("url")
+//        likes = try node.extract("likes")
+//    }
 
     init(capt: String, desc: String, url: String, likes: Int) {
         self.capt = capt
@@ -67,6 +67,6 @@ extension Pqtr: Preparation {
     }
 
     static func revert(_ database: Database) throws {
-        try database.delete("pqtrz")
+        try database.delete(self)
     }
 }
