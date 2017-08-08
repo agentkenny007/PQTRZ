@@ -23,8 +23,6 @@ import URI
 /// .run() runs the Droplet's commands, 
 /// if no command is given, it will default to "serve"
 let config = try Config()
-try config.addProvider(LeafProvider.Provider.self)
-try config.addProvider(PostgreSQLProvider.Provider.self)
 try config.setup()
 
 let drop = try Droplet(config)
