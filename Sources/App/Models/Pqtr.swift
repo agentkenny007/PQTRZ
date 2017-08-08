@@ -70,3 +70,5 @@ extension Pqtr: Preparation {
         try database.delete(self)
     }
 }
+
+extension Pqtr: Timestampable { }
