@@ -13,11 +13,12 @@ let package = Package(
         .Package(url: "https://github.com/vapor-community/postgresql-provider.git", majorVersion: 2, minor: 0)
     ],
     exclude: [
+        "App",
         "Config",
         "Database",
         "Localization",
         "Public",
-        "Resources"
+        "Resources",
+        "node_modules"
     ]
 )
-

@@ -1,0 +1,29 @@
+import Backbone from './modules/backbone';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import './styles.css';
+
+class App extends Component {
+  componentDidMount() { // the app is mounted, DOM nodes are ready
+    Backbone.boot(); // boot the backbone
+  }
+
+  render() { // render the app's view
+    return (
+      <div className="App">
+          <header>
+              <h2>Pqtrz.</h2>
+              <span className="icon"></span>
+              <nav>
+                  <a href="/">Home</a> |
+                  <a href="/add">Add</a>
+              </nav>
+          </header>
+          <div className="wrapper"><h2>Welcome Home!</h2></div>
+          <footer>&copy; 2017 | Pqtr. No Rights Reserved. Yet.</footer>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<App />, document.getElementsByTagName('app')[0]);

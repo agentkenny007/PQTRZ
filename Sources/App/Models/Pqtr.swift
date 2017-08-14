@@ -9,14 +9,14 @@ final class Pqtr: Model {
     let desc: String
     let likes: Int
     let url: String
-    
+
     init(row: Row) throws {
         capt = try row.get("capt")
         desc = try row.get("desc")
         likes = try row.get("likes")
         url = try row.get("url")
     }
-    
+
 //    init(node: Node, in context: Context) throws {
 //        capt = try node.extract("capt")
 //        desc = try node.extract("desc")
@@ -30,7 +30,7 @@ final class Pqtr: Model {
         self.likes = likes
         self.url = url
     }
-    
+
     func makeNode(context: Context) throws -> Node {
         return try Node(node: [
             "capt": capt,
@@ -38,7 +38,7 @@ final class Pqtr: Model {
             "likes": likes,
             "url": url ])
     }
-    
+
     func makeRow() throws -> Row {
         var row = Row()
         try row.set("capt", capt)
@@ -56,6 +56,7 @@ extension Pqtr: Preparation {
             pqtrz.string("capt")
             pqtrz.string("desc")
             pqtrz.int("likes")
+            pqtrz.string("cat")
             pqtrz.string("url") }
     }
 
