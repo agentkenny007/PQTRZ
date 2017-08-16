@@ -19,8 +19,8 @@ class App extends Component {
                   <a href="/add">Add</a>
               </nav>
           </header>
-          <div className="wrapper"><h2>Welcome Home!</h2></div>
-          <footer>&copy; 2017 | Pqtr. No Rights Reserved. Yet.</footer>
+          <div className="wrapper"><h2>Welcome Home!</h2><button className="register">register</button><button className="login">login</button></div>
+          <footer>&copy; 2017 | Pqtrz. No Rights Reserved. Yet.</footer>
       </div>
     );
   }

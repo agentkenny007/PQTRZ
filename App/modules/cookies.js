@@ -42,5 +42,4 @@ function readCookie(value, options) {
     return value;
 }
 
-const cookies = new Cookies();
-export default cookies;
+export default new Cookies();

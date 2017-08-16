@@ -1,6 +1,5 @@
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   entry: { app: './App/index.js' },
@@ -10,44 +9,55 @@ module.exports = {
 		publicPath: '/js',
   },
   devtool: 'inline-source-map',
-//   plugins: [
-// +     new CleanWebpackPlugin(['Public/js']),
-//       new HtmlWebpackPlugin({
-//         title: 'Output Management'
-//       })
-//   ],
+  plugins: [
+      new webpack.DefinePlugin('process.env'),
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.optimize.UglifyJsPlugin({
+        compress: process.env.NODE_ENV === 'production'
+      }),
+  ],
   module: {
-      rules: [
-        {
-          test: /\.css$/,
-          use: [
-            'style-loader',
-            'css-loader',
-          ]
-        },
-        {
-          test: /\.(js|jsx)$/,
-          loader: 'babel-loader',
-          options: {
-            babelrc: false,
-            presets: ['babel-preset-react-app'],
-            cacheDirectory: true,
-          }
-        },
-        {
-          test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
-            name: '[name].[hash:4].[ext]',
-          }
-        },
-        {
-          test: /\.(woff|woff2|eot|ttf|otf)$/,
-          use: [
-            'file-loader'
-          ]
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ]
+      },
+      {
+        test: /\.(js|jsx)$/,
+        loader: 'babel-loader',
+        options: {
+          babelrc: false,
+          presets: ['babel-preset-react-app'],
+          cacheDirectory: true,
         }
-      ]
+      },
+      {
+        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: '[name].[hash:4].[ext]',
+        }
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: [
+          'file-loader'
+        ]
+      }
+    ]
+  },
+  devServer: {
+    proxy: {
+      contentBase: './dist',
+      '*': {
+        target: 'http://localhost:8081',
+        secure: false,
+        headers: { "X-DevServer": "1" }
+      }
     }
+  }
 };

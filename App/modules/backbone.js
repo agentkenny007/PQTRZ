@@ -32,9 +32,22 @@ class Backbone { // the Backbone class
     let init = () => { // init function
       this.sessionActive = requests.loginCheck() // check to see if user is logged in
       console.log('Logged in: ', this.sessionActive);
+
     };
 
+    let creds = { first: "Daisy", last: "Duke", username: "DoubleDee", email: "daisy@duke.com", password: "boob" }
+    // let creds = { first: "Ikenna", last: "Ugwuh", username: "Kenny", email: "i@e.com", password: "pass" }
     $(document) // register live event handlers (use jquery)
+      .on('click', '.register', function(){
+          // requests.register(JSON.stringify(creds))
+          requests.register(creds)
+               .then(resp => {console.log('resp: ', resp)}, err => console.log("error: ", err))
+
+      })
+      .on('click', '.login', function(){
+        requests.login(creds)
+        .then(resp => {console.log('resp: ', resp)}, err => console.log("error: ", err))
+      })
       .ready(init); // when the document is ready, init
 
     $(window).resize(() => { // when the window is resized

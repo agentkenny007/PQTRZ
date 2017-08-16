@@ -1,5 +1,4 @@
-const S = {
-    URL: 'http://localhost:3333/'
+export default {
+    URL: 'http://localhost:8081/'
+    // URL: 'https://pqtrz.herokuapp.com/'
 }
-
-export default S;
