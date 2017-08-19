@@ -15,33 +15,6 @@ extension Droplet {
 
         get("home") { _ in try self.view.make("index") }
 
-        get("hello") { req in
-            var json = JSON()
-            try json.set("hello", "world")
-            return json
-        }
-
-        get("plaintext") { req in
-            return "Hello, world!"
-        }
-
-        // response to requests to /info domain
-        // with a description of the request
-        get("info") { req in
-            return req.description
-        }
-
-        get("description") { req in return req.description }
-
-        try resource("posts", PostController.self)
-        
-        post("logins") { req in
-            print(req.auth.header?.basic as Any)
-            print(req.auth.header?.bearer as Any)
-            
-            return "got it"
-        }
-
         // create a new user
         //
         // POST /register
@@ -51,20 +24,16 @@ extension Droplet {
             guard let json = req.json else {
                 throw Abort(.badRequest, reason: "No credentials.")
             }
-            
-            print(json);
 
             // initialize the name and email from
             // the request json
             let user = try User(json: json)
-            
-            print(user)
 
             // ensure no user with this username already exists
             guard try User.makeQuery().filter("username", user.username).first() == nil else {
                 throw Abort(.badRequest, reason: "A user with that username already exists.")
             }
-            
+
             // ensure no user with this email already exists
             guard try User.makeQuery().filter("email", user.email).first() == nil else {
                 throw Abort(.badRequest, reason: "A user with that email already exists.")
@@ -72,7 +41,7 @@ extension Droplet {
 
             // require a plaintext password is supplied
             guard let password = json["password"]?.string else {
-                throw Abort(.badRequest, reason: "Invalid credentials.")
+                throw Abort(.badRequest, reason: "Missing or invalid credentials.")
             }
 
             // hash the password and set it on the user
@@ -96,7 +65,7 @@ extension Droplet {
         // the User type can be passed to this middleware since it
         // conforms to PasswordAuthenticatable
         let password = grouped([
-            PasswordAuthenticationMiddleware(User.self)
+                PasswordAuthenticationMiddleware(User.self)
             ])
 
         // verifies the user has been authenticated using the password
@@ -107,11 +76,15 @@ extension Droplet {
         password.post("login") { req in
             print(req.auth.header?.basic as Any)
             print(req.auth.header?.bearer as Any)
-            
+
             let user = try req.user()
             let token = try Token.generate(for: user)
             try token.save()
-            return token
+
+            var json = JSON()
+            try json.set("access", token)
+            try json.set("user", user)
+            return json
         }
     }
 
@@ -123,7 +96,7 @@ extension Droplet {
         // the User type can be passed to this middleware since it
         // conforms to TokenAuthenticatable
         let token = grouped([
-            TokenAuthenticationMiddleware(User.self)
+                TokenAuthenticationMiddleware(User.self)
             ])
 
         // simply returns a greeting to the user that has been authed
@@ -135,5 +108,7 @@ extension Droplet {
             let user = try req.user()
             return "Hello, \(user.username)"
         }
+
+        try token.resource("_", PqtrController.self)
     }
 }
