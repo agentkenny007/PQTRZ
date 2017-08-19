@@ -1,7 +1,7 @@
-import $ from 'jquery';
-import Backbone from './backbone';
-import cookies from './cookies';
-import access_token from './constants/token';
+import $ from 'jquery'
+import Backbone from './backbone'
+import cookies from './cookies'
+import access_token from './constants/token'
 
 export default class Requests { // the Requests class
   /* |-------------------------------------------------------------------------------------

@@ -1,11 +1,11 @@
-import Backbone from './modules/backbone';
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import './styles.css';
+import Backbone from './modules/backbone'
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
+import './styles.css'
 
 class App extends Component {
   componentDidMount() { // the app is mounted, DOM nodes are ready
-    Backbone.boot(); // boot the backbone
+    Backbone.boot() // boot the backbone
   }
 
   render() { // render the app's view
@@ -32,8 +32,8 @@ class App extends Component {
           </div>
           <footer>&copy; 2017 | Pqtrz. No Rights Reserved. Yet.</footer>
       </div>
-    );
+    )
   }
 }
 
-ReactDOM.render(<App />, document.getElementsByTagName('app')[0]);
+ReactDOM.render(<App />, document.getElementsByTagName('app')[0])

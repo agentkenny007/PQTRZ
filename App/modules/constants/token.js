@@ -1,1 +1,1 @@
-export default "pqtrz_token";
+export default "pqtrz_token"
