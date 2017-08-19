@@ -5,6 +5,7 @@ import AuthProvider
 
 final class User: Model {
     let storage = Storage()
+    var id: Identifier?
     var first: String
     var last: String
     var username: String
@@ -16,7 +17,7 @@ final class User: Model {
         last = try row.get("last")
         username = try row.get("username")
         email = try row.get("email")
-        password = try row.get("passward")
+        password = try row.get("password")
     }
 
 //    init(node: Node, in context: Context) throws {
@@ -27,22 +28,22 @@ final class User: Model {
 //        password = try node.extract("password")
 //    }
 
-    init(first: String, last: String, email: String, username: String, password: String? = nil) {
-        self.first = first
-        self.last = last
+    init(first: String?, last: String?, email: String, username: String, password: String? = nil) {
+        self.first = first!
+        self.last = last!
         self.username = username
         self.email = email
         self.password = password
     }
 
-    func makeNode(context: Context) throws -> Node {
-        return try Node(node: [
-            "first": first,
-            "last": last,
-            "username": username,
-            "password": password,
-            "email": email ])
-    }
+    // func makeNode(context: Context) throws -> Node {
+    //     return try Node(node: [
+    //         "first": first,
+    //         "last": last,
+    //         "username": username,
+    //         "password": password,
+    //         "email": email ])
+    // }
 
     func makeRow() throws -> Row {
         var row = Row()
@@ -59,10 +60,10 @@ extension User: Preparation {
     static func prepare(_ database: Database) throws {
         try database.create(self) { users in
             users.id()
-            users.string("first")
-            users.string("last")
-            users.string("username")
-            users.string("email")
+            users.string("first", length: 60, optional: true, unique: false, default: nil)
+            users.string("last", length: 60, optional: true, unique: false, default: nil)
+            users.string("username", length: 50)
+            users.string("email", length: 80)
             users.string("password")
         }
     }
@@ -89,7 +90,7 @@ extension User: JSONConvertible {
         try json.set("last", last)
         try json.set("username", username)
         try json.set("email", email)
-        try json.set("password", password)
+        try json.set("id", id?.int)
         return json
     }
 }
