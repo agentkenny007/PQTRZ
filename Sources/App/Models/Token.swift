@@ -4,26 +4,26 @@ import Crypto
 
 final class Token: Model {
     let storage = Storage()
-    
+
     /// The actual token
     let token: String
-    
+
     /// The identifier of the user to which the token belongs
     let userId: Identifier
-    
+
     /// Creates a new Token
     init(string: String, user: User) throws {
         token = string
         userId = try user.assertExists()
     }
-    
+
     // MARK: Row
-    
+
     init(row: Row) throws {
         token = try row.get("token")
         userId = try row.get(User.foreignIdKey)
     }
-    
+
     func makeRow() throws -> Row {
         var row = Row()
         try row.set("token", token)
@@ -39,7 +39,7 @@ extension Token {
     static func generate(for user: User) throws -> Token {
         // generate 128 random bits using OpenSSL
         let random = try Crypto.Random.bytes(count: 16)
-        
+
         // create and return the new token
         return try Token(string: random.base64Encoded.makeString(), user: user)
     }
