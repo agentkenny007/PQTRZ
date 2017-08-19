@@ -4,11 +4,14 @@
   "description": "PQTRZ ___ App that displays pictures. Served by Swift. Powered by React.",
   "main": "index.js",
   "dependencies": {
+    "animated": "^0.2.0",
     "cookie": "^0.3.1",
     "jquery": "^3.2.1",
     "object-assign": "^4.1.1",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "react-router-dom": "^4.1.2",
+    "react-transition-group": "^2.2.0"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
@@ -19,6 +22,8 @@
     "css-loader": "^0.28.4",
     "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.30.1",
+    "node-sass": "^4.5.3",
+    "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
     "webpack": "^3.5.4",

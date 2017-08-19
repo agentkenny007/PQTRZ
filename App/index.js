@@ -1,7 +1,11 @@
 import Backbone from './modules/backbone'
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
-import './styles.css'
+import ReactDOM from "react-dom"
+import { BrowserRouter, Route, Link } from "react-router-dom"
+import './index.scss'
+
+import Home from './components/home'
+import Single from './components/single'
 
 class App extends Component {
   componentDidMount() { // the app is mounted, DOM nodes are ready
@@ -11,29 +15,24 @@ class App extends Component {
   render() { // render the app's view
     return (
       <div className="App">
-          <header>
-              <h2>Pqtrz.</h2>
-              <span className="icon"></span>
-              <nav>
-                  <a href="/">Home</a> |
-                  <a href="/add">Add</a>
-              </nav>
-          </header>
-          <div className="wrapper">
-            <h2>Welcome Home!</h2>
-            <button className="register">register</button>
-            <button className="login">login</button>
-            <form className="addPqtr">
-              <input type="text" name="source" placeholder="picture url..." />
-              <input type="text" name="capt" placeholder="picture caption..." />
-              <textarea name="desc" placeholder="picture description..." />
-              <button className="add" role="submit">add</button>
-            </form>
-          </div>
-          <footer>&copy; 2017 | Pqtrz. No Rights Reserved. Yet.</footer>
+        <header>
+          <nav className="nav-bar">
+            <span className="logo">Pqtrz.</span>
+            <Link to="/">Home</Link>
+            <Link to="/single">Single</Link>
+          </nav>
+        </header>
+        <footer>&copy; 2017 | Pqtrz. No Rights Reserved. Yet.</footer>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/single" component={Single} />
       </div>
     )
   }
 }
 
-ReactDOM.render(<App />, document.getElementsByTagName('app')[0])
+ReactDOM.render(
+ <BrowserRouter>
+   <App />
+ </BrowserRouter>,
+ document.getElementsByTagName('app')[0]
+)
