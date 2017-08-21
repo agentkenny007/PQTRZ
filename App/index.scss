@@ -32,10 +32,232 @@
     transform: $transformation;
 }
 
-app, body, html { width: 100%; height: 100%; }
+html, body { width: 100%; height: 100%; }
+
 body {
+  background: rgb(245, 247, 250);
   font: 16px 'Josefin Sans';
   text-align: center;
+  color: #69707a;
   margin: 0;
+  padding: 0;
 }
-img { max-width: 300px; }
+
+app, .App {
+  position: relative;
+  display: block;
+  min-height: 100%;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 65px;
+  background: grey;
+  z-index: 10;
+  a {
+    margin-right: 18px;
+    text-decoration: none;
+  }
+}
+
+page {
+  position: relative;
+  display: block;
+  padding: 85px 20px;
+}
+
+footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 50px;
+}
+
+.animated-page-wrapper {
+  position: absolute;
+  top: 62px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.logo {
+  position: absolute;
+  left: 1%;
+  display: inline-block;
+  width: 97px;
+  height: 0;
+  padding-top: 77px;
+  overflow: hidden;
+  background: url(images/nav-logo.png);
+}
+
+.image {
+  position: relative;
+    display: inline-block;
+    width: 20%;
+    max-width: 250px;
+    padding: 15px;
+    box-sizing: border-box;
+    img {
+        width: 100%;
+        display: block;
+    }
+    span {
+        display: block;
+    }
+    a {
+        position: relative;
+        display: block;
+        color: black;
+        border: 0.5px solid;
+        border-top: 0.5px solid rgba(0, 0, 0, 0.45);
+        border-right: 0;
+        border-right: 0.5px solid rgba(0, 0, 0, 0.25);
+        border-bottom: 2.5px solid white;
+        @include border-radius(5px 5px 0 8px);
+        @include box-shadow(0 5px 16px -5px black);
+        &:after {
+            position: absolute;
+            content: attr(data-t);
+            box-sizing: border-box;
+            width: 100%;
+            left: 0;
+            bottom: 1px;
+            padding: 5px 10px;
+            color: black;
+            text-align: right;
+            text-shadow: 0 1px 1px white, 0 2px 6px;
+            background: rgba(255, 255, 255, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.75);
+            opacity: 0;
+            @include border-radius(0 0 0 5px);
+            @include box-shadow(0 0 4px);
+            @include transition(all 0.2s ease);
+        }
+    }
+    .likes {
+        position: absolute;
+        cursor: url(images/heart.png), auto;
+        top: 1.1em;
+        right: 1.1em;
+        color: white;
+        font-size: 2em;
+        text-shadow: 0 1px 2px black;
+        i {
+            color: red;
+            margin-right: 5px;
+            &.naught {
+                color: white;
+            }
+        }
+    }
+    &.detail, &.single {
+        float: left;
+        width: 64%;
+        max-width: none;
+        border: 0.5px solid;
+        border-top: 0.5px solid rgba(0, 0, 0, 0.45);
+        border-right: 0;
+        border-right: 0.5px solid rgba(0, 0, 0, 0.75);
+        border-bottom: 0.5px solid white;
+        padding: 0;
+        @include border-radius(12px 12px 0 0);
+        @include box-shadow(0 5px 16px -5px black);
+        span {
+            position: relative;
+            @include box-shadow(inset 0 0 25px);
+            i {
+                position: absolute;
+                top: 50%;
+                margin: -0.5em;
+                color: white;
+                font-size: 5em;
+                text-shadow: 0 3px 5px rgba(0, 0, 0, 0.5), 0 3px 7px white, 0 -1px 1px black, 0 2px 2px black;
+                opacity: 0;
+                @include transition(all 0.15s ease-out);
+            }
+            &.liked i {
+                font-size: 10em;
+                opacity: 0.945;
+            }
+        }
+        .likes {
+            position: relative;
+            cursor: default;
+            top: 0;
+            right: 0;
+            color: red;
+            font-size: 3em;
+            text-shadow: 0 1px 1px red, 0 -1px 1px red, 0 2px 2px black;
+            padding-top: 10px;
+            background: white;
+            border-bottom: 1px solid grey;
+            z-index: 1;
+            @include border-radius(12px 12px 0 0);
+            @include box-shadow(0 5px 9px -5px black);
+            i {
+                font-size: 0.8em;
+            }
+            button {
+                position: absolute;
+                right: 0;
+                top: 0;
+                border: 0;
+                padding: 0;
+                width: 0;
+                height: 100%;
+                background: red;
+                color: white;
+                font: 0.8em 'Josefin Sans';
+                text-shadow: 0 1px 1px darkred;
+                overflow: hidden;
+                @include border-radius(0 12px 0 0);
+                @include transition(all 0.175s ease-in);
+                &.edit-image {
+                    background: black;
+                    text-shadow: 0 1px 1px white;
+                    left: 0;
+                    right: inherit;
+                    @include border-radius(12px 0 0 0);
+                }
+            }
+            &:hover {
+                button {
+                    width: 4em;
+                    border-left: 1px solid darkred;
+                }
+            }
+        }
+    }
+    &:hover {
+        a:after {
+            font-size: 1.25em;
+            font-weight: bold;
+            opacity: 1;
+        }
+    }
+}
+
+@media screen and (min-width: 980px) {
+  .container {
+      margin: 0 auto;
+      max-width: 960px;
+  }
+}
+
+@media screen and (min-width: 1180px) {
+  .container {
+      max-width: 1200px;
+  }
+}
