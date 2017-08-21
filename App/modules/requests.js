@@ -17,7 +17,7 @@ export default class Requests { // the Requests class
 
   static login (creds, headers) { return !!headers? headers:
     headers = { Authorization: "Basic " + btoa(creds.username + ':' + creds.password) },
-    $.post({ url:  '/login', headers: headers })
+    $.post({ url: 'login', headers: headers })
   }
 
   static upload (pqtr) {
@@ -30,7 +30,7 @@ export default class Requests { // the Requests class
 
   static logout () { cookies.remove(access_token); Backbone.sessionActive = false }
 
-  static register (creds) { return $.post({ url: "/register",
+  static register (creds) { return $.post({ url: "register",
       contentType: 'application/json',
       data: JSON.stringify(creds)
     })
