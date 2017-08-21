@@ -15,6 +15,19 @@ extension Droplet {
 
         get("home") { _ in try self.view.make("index") }
 
+        get("pqtrz") { req in return try Pqtr.all().makeJSON() }
+
+        get("pqtrz", ":hash") { req in
+          let hash = req.parameters["hash"]
+          let pqtr = try Pqtr.makeQuery().filter("hash", hash).first()
+
+          guard pqtr != nil else {
+              throw Abort(.badRequest, reason: "404 not found.")
+          }
+
+          return pqtr!.blob
+        }
+
         // create a new user
         //
         // POST /register
