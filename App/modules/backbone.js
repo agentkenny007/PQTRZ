@@ -4,6 +4,7 @@ import access_token from './constants/token'
 import cookies from './cookies'
 import proxy from './constants/proxy'
 import requests from './requests'
+import { PqtrList } from '../components/pqtr-container'
 
 class Backbone { // the Backbone class
   /* |-------------------------------------------------------------------------------------
@@ -27,12 +28,19 @@ class Backbone { // the Backbone class
     this.refs = [] // to store DOM references
     this.sessionActive = false // to check for logged in user
     this.user = {} // the user
+    this.pqtrz = [] // to store the pqtrz
   }
 
   boot() { // to boot and run the app
     const $app = $(document), init = () => { // init function
       this.sessionActive = requests.loginCheck() // check to see if user is logged in
       console.log('Logged in: ', this.sessionActive)
+      $.ajax('pqtrz').then(resp => { // get pqtrz from the database
+        console.log(resp)
+        this.getRef('pqtr-container').update(<PqtrList pqtrz={resp} />); // update the pqtr container with a list of pqtrz
+        // resp.forEach(p => this.pqtrz.push(p)) // update the pqtrz
+        this.pqtrz = resp // store the pqtrz
+       })
     }
     this.register($app).ready(init) // register and initialise the app
   }
