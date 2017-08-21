@@ -10,7 +10,7 @@ final class Pqtr: Model {
     var cat: String?
     var desc: String?
     var desc_type: String?
-    var likes: Int
+    var likes: Int?
     var blob: String
     var width: String
     var height: String
@@ -43,7 +43,7 @@ final class Pqtr: Model {
         desc: String?,
         desc_type: String?,
         blob: String,
-        likes: Int,
+        likes: Int?,
         cat: String?,
         width: String,
         height: String,
