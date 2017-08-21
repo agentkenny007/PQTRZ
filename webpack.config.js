@@ -5,8 +5,8 @@ module.exports = {
   entry: { app: './App/index.js' },
   output: {
     filename: '[name].js',
-		path: path.join(__dirname, 'Public', 'js'),
-		publicPath: '/js',
+		path: path.join(__dirname, 'Public', 'assets'),
+		publicPath: '/assets/',
   },
   devtool: 'inline-source-map',
   plugins: [
