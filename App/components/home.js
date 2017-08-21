@@ -1,19 +1,16 @@
-import React, { Component } from "react"
+import React, { Component } from 'react'
+import Container, { PqtrList } from './pqtr-container'
+import app from '../modules/backbone'
 
 export default class Home extends Component {
  render() {
   return (
-   <div className="page">
-     <h2>Welcome Home!</h2>
-     <button className="register">register</button>
-     <button className="login">login</button>
-     <form className="addPqtr">
-       <input type="text" name="source" placeholder="picture url..." />
-       <input type="text" name="capt" placeholder="picture caption..." />
-       <textarea name="desc" placeholder="picture description..." />
-       <button className="add" role="submit">add</button>
-     </form>
-   </div>
+   <page>
+     <Container
+       content={ <PqtrList pqtrz={app.pqtrz} /> }
+       ref={ container => app.saveRef('pqtr-container', container) }
+     />
+   </page>
   )
  }
 }

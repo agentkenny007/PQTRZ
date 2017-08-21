@@ -1,12 +1,12 @@
-import React, { Component } from "react"
+import React, { Component } from 'react'
 
 export default class Single extends Component {
  render() {
   return (
-   <div className="page">
+   <page>
     <h1>Pqtr</h1>
     <p>Hello from a pqtr page!</p>
-   </div>
+   </page>
   )
  }
 }
