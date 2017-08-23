@@ -32,9 +32,9 @@
   },
   "scripts": {
     "start": "webpack --watch",
-    "build": "webpack ; vapor build",
+    "build": "npm run prod; vapor build",
     "webpack": "webpack",
-    "prod": "NODE_ENV=production webpack",
+    "prod": "cross-env NODE_ENV=production webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
