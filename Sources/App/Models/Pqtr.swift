@@ -20,6 +20,8 @@ final class Pqtr: Model {
     var hash: String?
     var user_id: Int?
     var source: String
+    var format: String
+    var bytes: Int
 
     init(row: Row) throws {
         capt = try row.get("capt")
@@ -36,6 +38,8 @@ final class Pqtr: Model {
         hash = try row.get("hash")
         user_id = try row.get("user_id")
         source = try row.get("source")
+        format = try row.get("format")
+        bytes = try row.get("bytes")
     }
 
     init(
@@ -50,7 +54,9 @@ final class Pqtr: Model {
         size: String,
         ghost: String?,
         ghost_link: String?,
-        source: String
+        source: String,
+        format: String,
+        bytes: Int
         ) {
         self.capt = capt
         self.desc = desc
@@ -64,6 +70,8 @@ final class Pqtr: Model {
         self.ghost = ghost
         self.ghost_link = ghost_link
         self.source = source
+        self.format = format
+        self.bytes = bytes
     }
 
     func makeRow() throws -> Row {
@@ -104,6 +112,8 @@ extension Pqtr: Preparation {
             pqtrz.string("hash", length: 8, optional: true, unique: true)
             pqtrz.foreignId(for: User.self)
             pqtrz.string("source")
+            pqtrz.string("format", length: 7)
+            pqtrz.int("bytes")
         }
     }
 
@@ -135,7 +145,9 @@ extension Pqtr: JSONConvertible {
             size: json.get("size"),
             ghost: try? json.get("ghost"),
             ghost_link: try? json.get("ghost_link"),
-            source: json.get("source")
+            source: json.get("source"),
+            format: json.get("format"),
+            bytes: json.get("bytes")
         )
     }
 
@@ -180,7 +192,7 @@ extension Pqtr: Updateable {
             UpdateableKey("desc", String.self) { pqtr, desc in pqtr.desc = desc },
             UpdateableKey("desc_type", String.self) { pqtr, desc_type in pqtr.desc_type = desc_type },
             UpdateableKey("likes", Int.self) { pqtr, likes in pqtr.likes = likes },
-            UpdateableKey("blob", String.self) { pqtr, blob in pqtr.blob = blob },
+//            UpdateableKey("blob", String.self) { pqtr, blob in pqtr.blob = blob },
             UpdateableKey("width", String.self) { pqtr, width in pqtr.width = width },
             UpdateableKey("height", String.self) { pqtr, height in pqtr.height = height },
             UpdateableKey("size", String.self) { pqtr, size in pqtr.size = size },
@@ -189,3 +201,5 @@ extension Pqtr: Updateable {
         ]
     }
 }
+
+extension Pqtr: SoftDeletable { }
