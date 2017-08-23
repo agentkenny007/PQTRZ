@@ -8,6 +8,7 @@
 
 import Vapor
 import HTTP
+import Crypto
 
 /// Here we have a controller that helps facilitate
 /// RESTful interactions with our Pqtrz table
@@ -24,9 +25,9 @@ final class PqtrController: ResourceRepresentable {
         guard let userID = try req.user().id?.int else {
             throw Abort(.badRequest, reason: "No user.")
         }
-        var hash = String.random(length: 4)
+        var hash = try Crypto.Random.bytes(count: 3).base64Encoded.makeString()
         while try Pqtr.makeQuery().filter("hash", hash).first() != nil {
-            hash = String.random(length: 4)
+            hash = try Crypto.Random.bytes(count: 3).base64Encoded.makeString()
         }
         let pqtr = try req.pqtr()
         pqtr.user_id = userID
@@ -116,15 +117,3 @@ extension Request {
 /// This will allow it to be passed by type.
 extension PqtrController: EmptyInitializable { }
 
-extension String {
-    static func random(length: Int = 20) -> String {
-        let base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        var randomString: String = ""
-        
-        for _ in 0..<length {
-            let randomValue = arc4random_uniform(UInt32(base.characters.count))
-            randomString += "\(base[base.index(base.startIndex, offsetBy: Int(randomValue))])"
-        }
-        return randomString
-    }
-}
