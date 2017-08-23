@@ -33,15 +33,24 @@ class Backbone { // the Backbone class
 
   boot() { // to boot and run the app
     const $app = $(document), init = () => { // init function
-      this.sessionActive = requests.loginCheck() // check to see if user is logged in
+      let animateHeader = function(){
+        const screen = $(this), header = $('header');
+        console.log(screen, header.hasClass('scrolled'))
+        if (screen.scrollTop() > 0 && header.hasClass('scrolled') == false)
+            header.addClass('scrolled');
+        else if (screen.scrollTop() < 1 && header.hasClass('scrolled'))
+            header.removeClass('scrolled');
+      }
       console.log('Logged in: ', this.sessionActive)
       $.ajax('pqtrz').then(resp => { // get pqtrz from the database
         console.log(resp)
+        this.pqtrz = resp // store the pqtrz
         this.getRef('pqtr-container').update(<PqtrList pqtrz={resp} />); // update the pqtr container with a list of pqtrz
         // resp.forEach(p => this.pqtrz.push(p)) // update the pqtrz
-        this.pqtrz = resp // store the pqtrz
-       })
+      })
+      $(window).scroll(animateHeader);
     }
+    this.sessionActive = requests.loginCheck() // check to see if user is logged in
     this.register($app).ready(init) // register and initialise the app
   }
 
@@ -64,20 +73,40 @@ class Backbone { // the Backbone class
       (w >= 250 || h >= 250) ? "small" : "tiny", pqtr
   }
 
+  login(creds) { // to begin the user's session
+    requests.login(this.deserialize(creds)) // get the creds from the serialised string and login
+      .then(data => this.saveSesh(data), err => console.log("error: ", err))
+  }
+
+  logout() { // to end the user's session
+    cookies.remove(access_token);
+    this.getRef('app').updateSession(
+      this.sessionActive = false
+    )
+  }
+
   register($interface) { // to register live event handlers on the app
     let creds = { first: "Ikenna", last: "Ugwuh", username: "KennyKen", email: "i@e.com", password: "pass" }
     return $interface
-      .on('click', '.register', () => {
-        requests.register(creds)
-          .then(resp => {console.log('resp: ', resp)}, err => console.log("error: ", err))
+      .on('submit', '.signup-form', function(){ app.signup($(this).serialize()) })
+      .on('submit', '.login-form', function(){ app.login($(this).serialize()) })
+      .on('click', '.logout', () => this.logout())
+      .on('mouseenter', '.image:not(.single)', function(){
+        let i = $(this).data('index'),
+            bg = app.pqtrz[i].blob
+        $('body').css("background", `url(${bg}) center/cover no-repeat`)
+        $(this).addClass('zoom')
+        $('.image:not(.zoom)').addClass('fade')
+        $('footer').css("color", 'white')
       })
-      .on('click', '.login', () => {
-        console.log('logging in...')
-        requests.login(creds)
-          .then(data => this.saveSesh(data), err => console.log("error: ", err))
+      .on('mouseleave', '.image:not(.single)', function(){
+        $('body').css("background", 'rgb(245, 247, 250)')
+        $('.image').removeClass('fade')
+        $(this).removeClass('zoom')
+        $('footer').css("color", 'inherit')
       })
       .on('submit', 'form', () => { return false })
-      .on('submit', '.addPqtr', function(){ app.upload($(this).serialize()) })
+      .on('submit', '.upload', function(){ app.upload($(this).serialize()) })
       , $interface
   }
 
@@ -90,8 +119,13 @@ class Backbone { // the Backbone class
     expires.setTime(expires.getTime() + 1000 * 60 * 60 * 24 * 7) // set the expiry date for one week from now
     cookies.set(access_token, data.access.token, { expires: expires }) // store the access token in a cookie
     this.user = data.user // set up the logged in user
-    this.sessionActive = true // activate the session
+    this.getRef('app').updateSession(this.sessionActive = true) // activate the session
     console.log("User logged in: ", this.user)
+  }
+
+  signup(creds) {
+    requests.register(this.deserialize(creds)) // get the creds from the serialised string and register
+      .then(resp => {console.log('resp: ', resp)}, err => console.log("error: ", err))
   }
 
   upload(pqtr) { // to upload a pqtr to the database
@@ -99,6 +133,8 @@ class Backbone { // the Backbone class
     console.log("grabbing pqtr...")
     fetch(proxy + pqtr.source).then(_=>_.blob()).then(blob => { // grab a blob (the bytes) of the pqtr
       console.log("determining size...")
+      pqtr.bytes = blob.size.toString()
+      pqtr.format = blob.type.split('/')[1]
       const img = new Image(), // create an image
             reader = new FileReader(), // create a file reader
             upload = pqtr => requests.upload(pqtr) // define a callback to upload the pqtr
