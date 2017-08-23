@@ -50,8 +50,12 @@ module.exports = {
           name: '[name].[hash:4].[ext]',
         }
       },
+      // {
+      //   test: /\.(eot|svg|ttf|woff|woff2)$/,
+      //   loader: 'file-loader?name=App/fonts/[name].[ext]'
+      // }
       {
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        test: /\.(woff|woff2|eot|ttf|otf|svg)$/,
         use: [
           'file-loader'
         ]
