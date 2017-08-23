@@ -90,6 +90,8 @@ final class Pqtr: Model {
         try row.set("hash", hash)
         try row.set("user_id", user_id)
         try row.set("source", source)
+        try row.set("format", format)
+        try row.set("bytes", bytes)
         return row
     }
 }
