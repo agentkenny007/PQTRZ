@@ -5,9 +5,9 @@ export default class Register extends Component {
   return (
    <page>
      <h2>Register and start uploading pqtrz!</h2>
-     <form className="register-form">
+     <form className="signup-form">
        <input type="text" name="first" placeholder="enter your first name" />
-       <input type="text" name="last" placeholder="enter your first name" />
+       <input type="text" name="last" placeholder="enter your last name" />
        <input type="text" name="username" placeholder="enter a username..." />
        <input type="text" name="email" placeholder="enter your email address" />
        <input type="text" name="password" placeholder="enter a password..." />
