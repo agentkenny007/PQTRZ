@@ -11,6 +11,7 @@ import Single from './components/single'
 import Upload from './components/upload'
 import Login from './components/login'
 import Register from './components/register'
+import HeaderForms from './components/forms'
 
 class App extends Component {
   constructor(props) {
@@ -30,26 +31,25 @@ class App extends Component {
   }
 
   render() { // render the app's view
-    let navLinks = this.state.active? [
-          <Link key={0} to="/upload"><i className="icon-upload" /></Link>,
-          <button key={1} className="logout"><i className="icon-exit" /></button>
+    let loggedIn = this.state.active,
+        navLinks = loggedIn? [
+          <button key={0} className="upload" data-tooltip="Upload"><i className="icon-upload" /></button>,
+          <button key={1} className="logout" data-tooltip="Log Out"><i className="icon-exit" /></button>
         ] : [
-          <Link key={0} to="/register"><i className="icon-quill" /></Link>,
-          <Link key={1} to="/login"><i className="icon-enter" /></Link>
+          <button key={0} className="signup" data-tooltip="Sign Up"><i className="icon-quill" /></button>,
+          <button key={1} className="login" data-tooltip="Log In"><i className="icon-enter" /></button>
         ]
     return (
       <div className="App">
         <header>
-          <nav className="nav-bar">
-            <Link to="/"><span className="logo">Pqtrz.</span></Link>
+          <HeaderForms active={loggedIn} />
+          <nav>
+            <Link to="/" className="logo" data-tooltip="Home">Pqtrz.</Link>
             <div className="icons">{ navLinks }</div>
           </nav>
         </header>
           <Route exact path="/" component={Home} />
           <Route path="/single/:hash" component={Single} />
-          <Route exact path="/upload" component={Upload} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
         <footer>&copy; 2017 | Pqtrz. No Rights Reserved. Yet.</footer>
       </div>
     )
