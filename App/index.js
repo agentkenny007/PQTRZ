@@ -8,9 +8,6 @@ import TransitionGroup from 'react-transition-group/TransitionGroup'
 
 import Home from './components/home'
 import Single from './components/single'
-import Upload from './components/upload'
-import Login from './components/login'
-import Register from './components/register'
 import HeaderForms from './components/forms'
 
 class App extends Component {
